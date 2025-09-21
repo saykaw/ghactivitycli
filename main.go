@@ -1,7 +1,10 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"ghactivitycli/types"
+	"io"
 	"net/http"
 	"os"
 )
@@ -21,18 +24,18 @@ func main() {
 			fmt.Println("Error making request:", err)
 		}
 		defer res.Body.Close()
-		fmt.Printf("Fetched GitHub activity for user: %s\n", username)
-		fmt.Print(res.Body)
-		for {
-			data := make([]byte, 1024)
-			n, err := res.Body.Read(data)
-			if err != nil {
-				fmt.Println("Error reading response body:", err)
-				break
-			}
-			fmt.Printf("Read %d bytes from response body\n", n)
-			fmt.Print(string(data[:n]))
+
+		data, err := io.ReadAll(res.Body)
+		if err != nil {
+			fmt.Println("Error reading response body:", err)
 		}
+
+		githubEvents := []types.GitHubEvent{}
+		err = json.Unmarshal(data, &githubEvents)
+		if err != nil {
+			fmt.Println("Error unmarshalling JSON:", err)
+		}
+		fmt.Printf("%+v\n", githubEvents)
 
 	}
 
