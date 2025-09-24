@@ -35,7 +35,9 @@ func main() {
 		if err != nil {
 			fmt.Println("Error unmarshalling JSON:", err)
 		}
-		fmt.Printf("%+v\n", githubEvents)
+		// fmt.Printf("%+v\n", githubEvents)
+		formatEvent(githubEvents)
+		fmt.Println("Done")
 
 	}
 

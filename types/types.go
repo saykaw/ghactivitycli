@@ -16,8 +16,8 @@ type Repo struct {
 }
 
 type Payload struct {
-	RespositoryId string   `json:"repository_id"`
-	PushID        string   `json:"push_id"`
+	RespositoryId int      `json:"repository_id"`
+	PushID        int      `json:"push_id"`
 	Size          int      `json:"size"`
 	DistinctSize  int      `json:"distinct_size"`
 	Ref           string   `json:"ref"`
